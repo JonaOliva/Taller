@@ -1,328 +1,143 @@
-//////Ejercicio B 3
+/////Clase main
+import java.util.Scanner;
 
-#include <stdio.h>
-#include <stdlib.h>
-void mostrar_menu() {
-    printf("Menú:\n");
-    printf("1- Comenzar programa\n");
-    printf("2- Imprimir listado\n");
-    printf("3- Finalizar programa\n");
-}
-void comenzar_programa() {
-    printf("El programa ha comenzado.\n");
-}
-void imprimir_listado() {
-    printf("Se ha impreso el listado.\n");
-}
-void finalizar() {
-    printf("El programa ha finalizado.\n");
-    exit(0);
-}
-int main() {
-    int opcion;
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-    while (1) {
-        mostrar_menu();
-        printf("Seleccione una opción (1, 2 o 3): ");
-        scanf("%d", &opcion);
+        // Declaracion del arreglo de vértices
+        Vertice[] vertices = new Vertice[5];
 
-        switch (opcion) {
-            case 1:
-                comenzar_programa();
-                break;
-            case 2:
-                imprimir_listado();
-                break;
-            case 3:
-                finalizar();
-                break;
-            default:
-                printf("Opción incorrecta. Por favor, seleccione 1, 2 o 3.\n");
-                break;
-        }
+        // Creamos el ciclo do-while para mostrar el menu
+        int opcion;
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Verificar la existencia de un vertice");
+            System.out.println("2. Verificar si el arreglo de vertices está vacio");
+            System.out.println("3. Insertar un nuevo vertice");
+            System.out.println("4. Actualizar el numero de un vertice");
+            System.out.println("5. Eliminar un vertice");
+            System.out.println("0. Salir");
+            System.out.print("Elija una opcion: ");
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese el nombre del vertice a verificar: ");
+                    scanner.nextLine();
+                    String nombreCheck = scanner.nextLine();
+                    boolean existe = Utiles.check_vertice(vertices, nombreCheck);
+                    System.out.println("El vertice " + nombreCheck + " " + (existe ? "existe." : "no existe."));
+                    break;
+                case 2:
+                    boolean vacio = Utiles.isEmpty_vertices(vertices);
+                    System.out.println("El arreglo de vertices " + (vacio ? "está vacio." : "no está vacio."));
+                    break;
+                case 3:
+                    System.out.print("Ingrese el nombre del nuevo vertice: ");
+                    scanner.nextLine();
+                    String nombreNuevo = scanner.nextLine();
+                    System.out.print("Ingrese el número del nuevo vertice: ");
+                    int numeroNuevo = scanner.nextInt();
+                    Utiles.insert_vertice(vertices, nombreNuevo, numeroNuevo);
+                    System.out.println("Vertice insertado correctamente.");
+                    break;
+                case 4:
+                    System.out.print("Ingrese el nombre del vertice a actualizar: ");
+                    scanner.nextLine();
+                    String nombreUpdate = scanner.nextLine();
+                    System.out.print("Ingrese el nuevo numero del vertice: ");
+                    int numeroUpdate = scanner.nextInt();
+                    Utiles.update_vertice(vertices, nombreUpdate, numeroUpdate);
+                    System.out.println("Vertice actualizado correctamente.");
+                    break;
+                case 5:
+                    System.out.print("Ingrese el nombre del vertice a eliminar: ");
+                    scanner.nextLine();
+                    String nombreDelete = scanner.nextLine();
+                    Utiles.delete_vertice(vertices, nombreDelete);
+                    System.out.println("Vertice eliminado correctamente.");
+                    break;
+                case 0:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opcion no valida. Intentelo de nuevo.");
+                    break;
+            }
+        } while (opcion != 0);
+
+        scanner.close();
     }
-    return 0;
 }
 
-//////Ejercicio B 4
-#include <stdio.h>
 
-int main() {
+///// Clase Vertice
+
+public class Vertice {
+    String nombre;
     int numero;
 
-    printf("Ingrese números enteros. Ingrese 0 para terminar.\n");
-
-    do {
-        printf("Ingrese un número: ");
-        scanf("%d", &numero);
-
-        if (numero != 0) {
-            // Hacer algo con el número, aquí puedes agregar tu lógica
-            printf("Número ingresado: %d\n", numero);
-        }
-    } while (numero != 0);
-
-    printf("Programa finalizado.\n");
-
-    return 0;
-}
-
-////// EJERCICIO C 2
-#include <stdio.h>
-
-int main() {
-    int numero;
-
-    printf("Ingrese números enteros. Ingrese 0 para terminar.\n");
-
-    do {
-        printf("Ingrese un número: ");
-        scanf("%d", &numero);
-
-        switch (numero) {
-            case 0:
-                printf("Programa finalizado.\n");
-                break;
-            default:
-                printf("Número ingresado: %d\n", numero);
-                break;
-        }
-    } while (numero != 0);
-
-    return 0;
-}
-
-////// EJERCICIO D 2
-
-#include <stdio.h>
-
-void imprimir_triangulo(char letra, int anchura) {
-    if (anchura <= 0) {
-        printf("La anchura debe ser mayor que 0.\n");
-        return;
-    }
-
-    for (int i = anchura; i > 0; i--) {
-        for (int j = 0; j < i; j++) {
-            printf("%c", letra);
-        }
-        printf("\n");
+    // Constructor de la clase Vertice
+    public Vertice(String nombre, int numero) {
+        this.nombre = nombre;
+        this.numero = numero;
     }
 }
 
-int main() {
-    char letra;
-    int anchura;
 
-    printf("Ingrese una letra o un numero: ");
-    scanf(" %c", &letra);
-    printf("Ingrese la anchura del triángulo: ");
-    scanf("%d", &anchura);
+///// Clase Utiles
 
-    imprimir_triangulo(letra, anchura);
-
-    return 0;
-}
-
-///////// EJERCICIO E 4
-
-#include <stdio.h>
-#include <string.h>
-
-int main() {
-    char arreglo_original[] = {'a', 'b', 'c', 'd', 'e', 'f'};
-    char arreglo_inverso[6];
-
-    for (int i = 0; i < 6; i++) {
-        arreglo_inverso[i] = arreglo_original[5 - i];
-    }
-
-    printf("Arreglo original: ");
-    for (int i = 0; i < 6; i++) {
-        printf("%c ", arreglo_original[i]);
-    }
-    printf("\n");
-
-    printf("Arreglo inverso: ");
-    for (int i = 0; i < 6; i++) {
-        printf("%c ", arreglo_inverso[i]);
-    }
-    printf("\n");
-
-    return 0;
-}
-
-
-//////// EJERCICIO E 8
-
-#include <stdio.h>
-int main() {
-    int matriz[2][3];
-    int positivos = 0;
-    int negativos = 0;
-    printf("Ingrese los elementos de la matriz 2x3:\n");
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("Elemento [%d][%d]: ", i, j);
-            scanf("%d", &matriz[i][j]);
-
-            if (matriz[i][j] > 0) {
-                positivos++;
-            } else if (matriz[i][j] < 0) {
-                negativos++;
+public class Utiles {
+    // Función para verificar la existencia de un vértice
+    public static boolean check_vertice(Vertice[] vertices, String nombre) {
+        for (Vertice vertice : vertices) {
+            if (vertice != null && vertice.nombre.equals(nombre)) {
+                return true;
             }
         }
+        return false;
     }
-    printf("\nMatriz ingresada:\n");
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%d ", matriz[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\nCantidad de números positivos: %d\n", positivos);
-    printf("Cantidad de números negativos: %d\n", negativos);
 
-    return 0;
-}
-
-/////// EJERCICIO E 13
-
-#include <stdio.h>
-
-#define GRADOS 2
-#define ALUMNOS_POR_GRADO 5
-
-int main() {
-    int notas[GRADOS][ALUMNOS_POR_GRADO];
-    float promedio_grados[GRADOS] = {0};
-    int mayor_nota = 0;
-    int alumnos_aprobados[GRADOS] = {0};
-    int alumnos_reprobados[GRADOS] = {0};
-
-    printf("Ingrese las notas de los alumnos:\n");
-    for (int i = 0; i < GRADOS; i++) {
-        printf("Grado %d:\n", i + 1);
-        for (int j = 0; j < ALUMNOS_POR_GRADO; j++) {
-            printf("Nota del alumno %d: ", j + 1);
-            scanf("%d", &notas[i][j]);
-
-            promedio_grados[i] += notas[i][j];
-
-            if (notas[i][j] >= 7) {
-                alumnos_aprobados[i]++;
-            } else {
-                alumnos_reprobados[i]++;
-            }
-            if (notas[i][j] > mayor_nota) {
-                mayor_nota = notas[i][j];
+    // Funcion para verificar si el arreglo de vertices está vacio
+    public static boolean isEmpty_vertices(Vertice[] vertices) {
+        for (Vertice vertice : vertices) {
+            if (vertice != null) {
+                return false;
             }
         }
-        promedio_grados[i] /= ALUMNOS_POR_GRADO;
+        return true;
     }
 
-    printf("\nPromedio de cada grado:\n");
-    for (int i = 0; i < GRADOS; i++) {
-        printf("Grado %d: %.2f\n", i + 1, promedio_grados[i]);
-    }
-
-    printf("\nLa mayor nota en general es: %d\n", mayor_nota);
-
-    printf("\nTodas las notas:\n");
-    for (int i = 0; i < GRADOS; i++) {
-        printf("Grado %d:\n", i + 1);
-        for (int j = 0; j < ALUMNOS_POR_GRADO; j++) {
-            printf("Alumno %d: %d\n", j + 1, notas[i][j]);
-        }
-    }
-    printf("\nCantidad de alumnos que aprobaron y reprobaron de cada grado:\n");
-    for (int i = 0; i < GRADOS; i++) {
-        printf("Grado %d:\n", i + 1);
-        printf("Aprobados: %d\n", alumnos_aprobados[i]);
-        printf("Reprobados: %d\n", alumnos_reprobados[i]);
-    }
-
-    return 0;
-}
-
-
-/////// EJERCICIO E 15
-
-#include <stdio.h>
-
-#define NUM_CIUDADES 5
-
-int ruta_entre_ciudades[NUM_CIUDADES][NUM_CIUDADES] = {0};
-
-void cargar_ruta() {
-    printf("Ingrese las distancias entre ciudades:\n");
-    for (int i = 0; i < NUM_CIUDADES; i++) {
-        for (int j = 0; j < NUM_CIUDADES; j++) {
-            if (i != j) {
-                printf("Distancia entre la ciudad %d y la ciudad %d: ", i, j);
-                scanf("%d", &ruta_entre_ciudades[i][j]);
-            }
-        }
-    }
-}
-
-void modificar_ruta(int ciudad1, int ciudad2, int distancia) {
-    ruta_entre_ciudades[ciudad1][ciudad2] = distancia;
-}
-void mostrar_relaciones() {
-    printf("Información cargada:\n");
-    for (int i = 0; i < NUM_CIUDADES; i++) {
-        for (int j = 0; j < NUM_CIUDADES; j++) {
-            printf("%d ", ruta_entre_ciudades[i][j]);
-        }
-        printf("\n");
-    }
-}
-void mostrar_cant_con_rutas() {
-    int ciudades_con_rutas = 0;
-    for (int i = 0; i < NUM_CIUDADES; i++) {
-        for (int j = 0; j < NUM_CIUDADES; j++) {
-            if (ruta_entre_ciudades[i][j] != 0) {
-                ciudades_con_rutas++;
+    // Funcion para insertar un vértice en el arreglo
+    public static void insert_vertice(Vertice[] vertices, String nombre, int numero) {
+        for (int i = 0; i < vertices.length; i++) {
+            if (vertices[i] == null) {
+                vertices[i] = new Vertice(nombre, numero);
                 break;
             }
         }
     }
-    printf("Cantidad de ciudades relacionadas por una ruta: %d\n", ciudades_con_rutas);
-}
-void mostrar_cant_sin_rutas() {
-    int ciudades_sin_rutas = 0;
-    for (int i = 0; i < NUM_CIUDADES; i++) {
-        int tiene_ruta = 0;
-        for (int j = 0; j < NUM_CIUDADES; j++) {
-            if (ruta_entre_ciudades[i][j] != 0) {
-                tiene_ruta = 1;
+
+    // Función para actualizar el número de un vértice
+    public static void update_vertice(Vertice[] vertices, String nombre, int nuevoNumero) {
+        for (Vertice vertice : vertices) {
+            if (vertice != null && vertice.nombre.equals(nombre)) {
+                vertice.numero = nuevoNumero;
                 break;
             }
         }
-        if (!tiene_ruta) {
-            ciudades_sin_rutas++;
+    }
+
+    // Función para eliminar un vértice del arreglo
+    public static void delete_vertice(Vertice[] vertices, String nombre) {
+        for (int i = 0; i < vertices.length; i++) {
+            if (vertices[i] != null && vertices[i].nombre.equals(nombre)) {
+                vertices[i] = null;
+                break;
+            }
         }
     }
-    printf("Cantidad de ciudades sin ruta que las relacione: %d\n", ciudades_sin_rutas);
-}
-
-void mostrar_distancia_entre_ciudades(int ciudad1, int ciudad2) {
-    if (ruta_entre_ciudades[ciudad1][ciudad2] != 0) {
-        printf("La distancia entre la ciudad %d y la ciudad %d es de %d kilómetros.\n", ciudad1, ciudad2, ruta_entre_ciudades[ciudad1][ciudad2]);
-    } else {
-        printf("No hay ruta entre la ciudad %d y la ciudad %d.\n", ciudad1, ciudad2);
-    }
-}
-
-int main() {
-    cargar_ruta();
-    modificar_ruta(0, 1, 100);
-    mostrar_relaciones();
-    mostrar_cant_con_rutas();
-    mostrar_cant_sin_rutas();
-    mostrar_distancia_entre_ciudades(2, 3);
-    return 0;
 }
 
 
